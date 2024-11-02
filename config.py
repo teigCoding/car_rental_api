@@ -1,11 +1,9 @@
-# config.py
-
 from neo4j import GraphDatabase
 
 class Neo4jConfig:
-    uri = "neo4j://localhost:7687"  # Adjust as needed for your setup
-    username = "mariustage"              # Your Neo4j username
-    password = "mariustage"      # Your Neo4j password
+    uri = "neo4j://localhost:7687"  
+    username = "mariustage"            
+    password = "mariustage"      
 
 driver = GraphDatabase.driver(Neo4jConfig.uri, auth=(Neo4jConfig.username, Neo4jConfig.password))
 
