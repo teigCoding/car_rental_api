@@ -1,20 +1,35 @@
 from models.neo4j_models import create_car, create_customer, create_employee, book_car, cancel_booking, rent_car, return_car
+import requests
+import time
+
+BASE_URL = "http://localhost:5001/rental"
+
 
 # Test creating nodes
 def test_create_nodes():
     create_car(1, "Toyota", "Camry", 2021, "NYC", "available")
-    create_customer(101, "John Doe", 30, "123 Elm St")
-    create_employee(201, "Alice Smith", "456 Pine St", "Downtown")
-    print("Created Car, Customer, and Employee nodes.")
+    create_car(2, "Toyota", "Camry", 2021, "NYC", "available")
 
-def test_order_car():
+    create_customer(101, "John Doe", 30, "123 Elm St")
+    create_customer(102, "Marius Skjegletoft", 30, "122 Elm St")
+
+    create_employee(201, "Alice Smith", "456 Pine St", "Downtown")
+    create_employee(201, "Petter Smugle Dritt Smith", "454 Pine St", "Downtown")
+
+    print("Created Car, Customer, and Employee nodes.")
+    test_order_car(101, 1)
+    test_order_car(102, 2)
+
+    time.sleep(19)
+
+def test_order_car(customer_id, car_id):
     url = f"{BASE_URL}/order-car"
     payload = {
-        "customer_id": "101",
-        "car_id": "1"
+        "customer_id": customer_id,
+        "car_id": car_id
     }
     response = requests.post(url, json=payload)
-    print_response("order-car", response)
+    print("order-car", response.status_code, response.json())
 
 # Test booking a car
 def test_book_car():
@@ -42,8 +57,8 @@ def test_return_car():
 # Run the tests
 if __name__ == "__main__":
     test_create_nodes()     # Create the initial nodes
-    test_book_car()         # Attempt to book the car
-    test_cancel_booking()   # Cancel the booking
-    test_book_car()         # Book again to test renting
-    test_rent_car()         # Rent the car
-    test_return_car()       # Return the car and update status
+    # test_book_car()         # Attempt to book the car
+    # test_cancel_booking()   # Cancel the booking
+    # test_book_car()         # Book again to test renting
+    # test_rent_car()         # Rent the car
+    # test_return_car()       # Return the car and update status
