@@ -45,3 +45,36 @@ def order_car():
 
 # Cancel Order Car
 @rental_bp.route('/cancel-order-car', methods=['POST'])
+def cancel_order_car():
+    customer_id = request.json.get('customer_id')
+    car_id = request.json.get('car_id')
+
+    if not customer_id or not car_id:
+        return jsonify(error="Missing customer_id or car_id"), 400
+
+    with driver.session() as session:
+        # Check if the booking exists
+        booking = session.run(
+            """
+            MATCH (customer:Customer {id: $customer_id})-[:BOOKED]->(car:Car {id: $car_id})
+            RETURN car
+            """,
+            customer_id=customer_id,
+            car_id=car_id
+        ).single()
+
+        if not booking:
+            return jsonify(error="No booking found for this customer and car"), 404
+
+        # Remove booking and set car status to available
+        session.run(
+            """
+            MATCH (customer:Customer {id: $customer_id})-[b:BOOKED]->(car:Car {id: $car_id})
+            DELETE b
+            SET car.status = 'available'
+            """,
+            customer_id=customer_id,
+            car_id=car_id
+        )
+
+    return jsonify(message="Booking canceled, car is now available"), 200

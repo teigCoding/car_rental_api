@@ -1,7 +1,7 @@
 import requests
 import json
 
-BASE_URL = "http://localhost:5000/rental"
+BASE_URL = "http://localhost:5001/rental"
 
 # Helper function to print formatted responses
 def print_response(endpoint, response):

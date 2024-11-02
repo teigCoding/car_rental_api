@@ -27,4 +27,4 @@ def close_neo4j_connection(exception=None):
     neo4j_service.close()
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5001)
