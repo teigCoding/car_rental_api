@@ -1,14 +1,15 @@
 from flask import Flask
-from routes.car_routes import car_bp        # Import the car routes
-from routes.customer_routes import customer_bp  # Import the customer routes
-from routes.employee_routes import employee_bp  # Import the employee routes
+# Import the routes
+from routes.car_routes import car_bp        
+from routes.customer_routes import customer_bp  
+from routes.employee_routes import employee_bp  
 
 app = Flask(__name__)
 
 # Register the blueprints
-app.register_blueprint(car_bp)       # Register the car blueprint
-app.register_blueprint(customer_bp)  # Register the customer blueprint
-app.register_blueprint(employee_bp)  # Register the employee blueprint
+app.register_blueprint(car_bp)       
+app.register_blueprint(customer_bp) 
+app.register_blueprint(employee_bp)  
 
 @app.route('/')
 def home():
