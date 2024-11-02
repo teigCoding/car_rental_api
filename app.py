@@ -8,7 +8,7 @@ from neo4j_service import Neo4jService
 app = Flask(__name__)
 
 # Initialize Neo4j Service
-neo4j_service = Neo4jService("bolt://localhost:7687", "mariustage", "neo4j")  
+neo4j_service = Neo4jService("bolt://localhost:7687", "mariustage", "mariustage")  
 
 # Register the blueprints
 app.register_blueprint(car_bp)
