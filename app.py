@@ -3,14 +3,12 @@ from routes.car_routes import car_bp
 from routes.customer_routes import customer_bp
 from routes.employee_routes import employee_bp
 from routes.rental_routes import rental_bp
-from neo4j_service import Neo4jService
+from config import get_driver
 
 app = Flask(__name__)
 
-# Initialize Neo4j Service
-neo4j_service = Neo4jService("bolt://localhost:7687", "mariustage", "mariustage")  
+neo4j_driver = get_driver()
 
-# Register the blueprints
 app.register_blueprint(car_bp)
 app.register_blueprint(customer_bp)
 app.register_blueprint(employee_bp)
@@ -21,10 +19,9 @@ app.register_blueprint(rental_bp)
 def home():
     return "Welcome to the Car Rental Service API!"
 
-# Close the Neo4j connection when the app context is torn down
 @app.teardown_appcontext
 def close_neo4j_connection(exception=None):
-    neo4j_service.close()
+    neo4j_driver.close()
 
 if __name__ == '__main__':
     app.run(debug=True, port=5001)
