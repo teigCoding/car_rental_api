@@ -1,7 +1,4 @@
 from flask import Flask
-from routes.car_routes import car_bp
-from routes.customer_routes import customer_bp
-from routes.employee_routes import employee_bp
 from routes.rental_routes import rental_bp
 from config import get_driver
 
